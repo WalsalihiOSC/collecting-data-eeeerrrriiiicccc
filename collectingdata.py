@@ -44,19 +44,24 @@ class CollectGui:
 
 class DisplayGui:
     def __init__(self, parent):
-
         # Creates a frames
         f1 = Frame(parent)
+
+        self.point = 0
+
+        self.UD = userData.view()
 
         # Creates label widgets
         self.display = Label(f1, text="Displaying Person Data")
         self.firstname = Label(f1, text="First Name:   ")
-        self.lastname = Label(f1, text="Age:  ")
+        self.age = Label(f1, text="Age:  ")
+        self.mobile = Label(f1, text="Mobile Phone:    ")
 
         # Arrange placement
-        self.display.grid(f1, row=1, column=0, sticky=W, pady=30)
-        self.firstname.grid(f1, row=2, column=0, sticky=W, pady=10)
-        self.lastname.grid(f1, row=3, column=0, sticky=W, pady=10)
+        self.display.grid(row=1, column=0, sticky=W, pady=30)
+        self.firstname.grid(row=2, column=0, sticky=W, pady=10)
+        self.age.grid(row=3, column=0, sticky=W, pady=10)
+        self.mobile.grid(row=4, column=0, sticky=W, pady=10)
 
         # Create buttons
         self.add_button = Button(f1, text="Add New Person")
@@ -64,9 +69,19 @@ class DisplayGui:
         self.prev = Button(f1, text="Next")
 
         # Arrange buttons
-        self.add_button.grid(f1, row=1, column=1, pady=30)
-        self.next.grid(f1, row=6, column=1, pady=30, sticky=W)
-        self.prev.grid(f1, row=6, pady=30, sticky=E)
+        self.add_button.grid(row=1, column=1, pady=30)
+        self.next.grid(row=6, column=1, pady=30, sticky=W)
+        self.prev.grid(row=6, pady=30, sticky=E)
+
+        # Results
+        self.name_r = Label(f1, text="")
+        self.age_r = Label(f1, text="")
+        self.mobile_phone_r = Label(f1, text="")
+
+        # Places the results
+        self.name_r.grid(row=2, column=1)
+        self.age_r.grid(row=3, column=1)
+        self.mobile_phone_r.grid(row=4, column=1)
 
         f1.pack()
 
