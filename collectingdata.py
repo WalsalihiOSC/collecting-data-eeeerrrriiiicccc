@@ -1,9 +1,10 @@
 from tkinter import *
 
-class CollectData:
+class CollectGui:
     def __init__(self, parent):
 
-        f1 = Frame(parent, bg="purple")
+        # Creates a frames
+        f1 = Frame(parent)
 
         # Creates label widgets
         self.l1 = Label(f1, text="Collecting Person Data")
@@ -34,12 +35,43 @@ class CollectData:
         self.enter_button.grid(row=6, pady=30, padx=60)
 
         # Create radio buttons
-        Radiobutton(f1, text="Yes", value=1).grid(row=4, column=1, pady=10)
-        Radiobutton(f1, text="No", value=2).grid(row=5, column=1, pady=10)
+
+        self.var = StringVar()
+        self.yes = Radiobutton(f1, text="Yes", variable=self.var, value="Yes").grid(row=4, column=1, pady=10)
+        self.no = Radiobutton(f1, text="No", variable=self.var, value="No").grid(row=5, column=1, pady=10)
 
         f1.pack()
 
+class DisplayGui:
+    def __init__(self, parent):
+
+        # Creates a frames
+        f1 = Frame(parent)
+
+        # Creates label widgets
+        self.display = Label(f1, text="Displaying Person Data")
+        self.firstname = Label(f1, text="First Name:   ")
+        self.lastname = Label(f1, text="Age:  ")
+
+        # Arrange placement
+        self.display.grid(f1, row=1, column=0, sticky=W, pady=30)
+        self.firstname.grid(f1, row=2, column=0, sticky=W, pady=10)
+        self.lastname.grid(f1, row=3, column=0, sticky=W, pady=10)
+
+        # Create buttons
+        self.add_button = Button(f1, text="Add New Person")
+        self.next = Button(f1, text="Previous")
+        self.prev = Button(f1, text="Next")
+
+        # Arrange buttons
+        self.add_button.grid(f1, row=1, column=1, pady=30)
+        self.next.grid(f1, row=6, column=1, pady=30, sticky=W)
+        self.prev.grid(f1, row=6, pady=30, sticky=E)
+
+        f1.pack()
+
+
 if __name__ == "__main__":
     root = Tk()
-    buttons = CollectData(root)
+    buttons = CollectGui(root)
     root.mainloop()
