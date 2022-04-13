@@ -1,10 +1,27 @@
 from tkinter import *
 
+class DataStorage:
+    def __init__(self):
+        self.data = []
+
+    def input(self, firstname, age, mobile):
+        new_data = {"name": firstname, "age": age, "mobile": mobile}
+        self.data.append(new_data)
+        print(len(self.data))
+
+    def view(self):
+        return self.data
+
+userData = DataStorage()
+
 class CollectGui:
     def __init__(self, parent):
+        self.parent = parent
 
         # Creates a frames
         f1 = Frame(parent)
+
+        self.userData = userData
 
         # Creates label widgets
         self.l1 = Label(f1, text="Collecting Person Data")
@@ -19,28 +36,40 @@ class CollectGui:
         self.l4.grid(row=4, column=0, sticky=W, pady=25)
 
         # Creates entry widgets
-        self.e1 = Entry(f1)
-        self.e2 = Entry(f1)
+        self.firstname = Entry(f1)
+        self.age = Entry(f1)
 
         # Arrange entry
-        self.e1.grid(row=2, column=1, sticky=W, pady=10, padx=20)
-        self.e2.grid(row=3, column=1, sticky=W, pady=10, padx=20)
+        self.firstname.grid(row=2, column=1, sticky=W, pady=10, padx=20)
+        self.age.grid(row=3, column=1, sticky=W, pady=10, padx=20)
 
         # Create buttons
-        self.show_button = Button(f1, text="Show All")
-        self.enter_button = Button(f1, text="Enter Data")
+        self.show_button = Button(f1, text="Show All", command=self.show_data)
+        self.enter_button = Button(f1, text="Enter Data", command=self.enter_data)
 
         # Arrange buttons
         self.show_button.grid(row=1, column=1, pady=30)
         self.enter_button.grid(row=6, pady=30, padx=60)
 
         # Create radio buttons
-
         self.var = StringVar()
-        self.yes = Radiobutton(f1, text="Yes", variable=self.var, value="Yes").grid(row=4, column=1, pady=10)
-        self.no = Radiobutton(f1, text="No", variable=self.var, value="No").grid(row=5, column=1, pady=10)
+        self.yes = Radiobutton(f1, text="Yes", variable=self.var, value="Yes")
+        self.no = Radiobutton(f1, text="No", variable=self.var, value="No")
+
+        # Places radio buttons
+        self.yes.grid(row=4, column=1, pady=10)
+        self.no.grid(row=5, column=1, pady=10)
 
         f1.pack()
+
+        # Input Data
+    def enter_data(self):
+        self.userData.input(self.firstname.get(), self.age.get(), self.var.get())
+        print(self.userData.view())
+
+    def show_data(self):
+        self.nf = Toplevel(self.parent)
+        self.app = DisplayGui(self.nf)
 
 class DisplayGui:
     def __init__(self, parent):
@@ -65,8 +94,8 @@ class DisplayGui:
 
         # Create buttons
         self.add_button = Button(f1, text="Add New Person")
-        self.next = Button(f1, text="Previous")
-        self.prev = Button(f1, text="Next")
+        self.next = Button(f1, text="Previous", command=self.next)
+        self.prev = Button(f1, text="Next", command=self.prev)
 
         # Arrange buttons
         self.add_button.grid(row=1, column=1, pady=30)
@@ -83,10 +112,27 @@ class DisplayGui:
         self.age_r.grid(row=3, column=1)
         self.mobile_phone_r.grid(row=4, column=1)
 
+        self.name_r.configure(text=self.UD[0]["name"])
+        self.age_r.configure(text=self.UD[0]["age"])
+        self.mobile_phone_r.configure(text=self.UD[0]["mobile"])
+
         f1.pack()
+
+    def next(self):
+        self.point += 1
+        self.name_r.configure(text=self.UD[self.point]["name"])
+        self.age_r.configure(text=self.UD[self.point]["age"])
+        self.mobile_phone_r.configure(text=self.UD[self.point]["mobile"])
+
+    def prev(self):
+        self.point -= 1
+        self.name_r.configure(text=self.UD[self.point]["name"])
+        self.age_r.configure(text=self.UD[self.point]["age"])
+        self.mobile_phone_r.configure(text=self.UD[self.point]["mobile"])
 
 
 if __name__ == "__main__":
     root = Tk()
     buttons = CollectGui(root)
     root.mainloop()
+
